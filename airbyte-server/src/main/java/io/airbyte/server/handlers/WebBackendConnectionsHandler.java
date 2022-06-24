@@ -51,8 +51,6 @@ import io.airbyte.config.persistence.ConfigNotFoundException;
 import io.airbyte.config.persistence.ConfigRepository;
 import io.airbyte.protocol.models.CatalogHelpers;
 import io.airbyte.protocol.models.ConfiguredAirbyteCatalog;
-import io.airbyte.protocol.models.StreamDescriptor;
-import io.airbyte.protocol.models.transform_models.StreamTransform;
 import io.airbyte.scheduler.client.EventRunner;
 import io.airbyte.server.handlers.helpers.CatalogConverter;
 import io.airbyte.validation.json.JsonValidationException;
@@ -311,7 +309,8 @@ public class WebBackendConnectionsHandler {
     if (needReset) {
       eventRunner.synchronousResetConnection(webBackendConnectionUpdate.getConnectionId());
       eventRunner.startNewManualSync(webBackendConnectionUpdate.getConnectionId());
-      final ConfiguredAirbyteCatalog existingConfiguredCatalog = configRepository.getConfiguredCatalogForConnection(webBackendConnectionUpdate.getConnectionId());
+      final ConfiguredAirbyteCatalog existingConfiguredCatalog =
+          configRepository.getConfiguredCatalogForConnection(webBackendConnectionUpdate.getConnectionId());
       final io.airbyte.protocol.models.AirbyteCatalog existingCatalog = CatalogHelpers.configuredCatalogToCatalog(existingConfiguredCatalog);
       final AirbyteCatalog modelExisting = CatalogConverter.toApi(existingCatalog);
       final AirbyteCatalog newAirbyteCatalog = webBackendConnectionUpdate.getSyncCatalog();
