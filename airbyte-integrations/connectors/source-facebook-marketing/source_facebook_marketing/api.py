@@ -158,10 +158,10 @@ class MyFacebookAdsApi(FacebookAdsApi):
 class API:
     """Simple wrapper around Facebook API"""
 
-    def __init__(self, account_id: str, access_token: str):
+    def __init__(self, account_id: str, access_token: str, api_version: str = "v13.0"):
         self._account_id = account_id
         # design flaw in MyFacebookAdsApi requires such strange set of new default api instance
-        self.api = MyFacebookAdsApi.init(access_token=access_token, crash_log=False)
+        self.api = MyFacebookAdsApi.init(access_token=access_token, crash_log=False, api_version=api_version)
         FacebookAdsApi.set_default_api(self.api)
 
     @cached_property
